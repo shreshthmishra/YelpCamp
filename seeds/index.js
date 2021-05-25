@@ -16,6 +16,7 @@ db.once('open', function () {
 });
 
 
+
 async function seedDb() {
     await Campground.deleteMany({});
     for (let i = 0; i < 50; i++) {
