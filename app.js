@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const Campground = require('./models/campground');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 
 // copied from mongoose documentations
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
@@ -22,6 +23,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true })); // It parses incoming requests
 app.use(methodOverride('_method'));
+app.engine('ejs', ejsMate);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')) // so that I can access views even if I don't start my app from YelpCamp directory

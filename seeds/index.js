@@ -19,9 +19,13 @@ db.once('open', function () {
 async function seedDb() {
     await Campground.deleteMany({});
     for (let i = 0; i < 50; i++) {
+        const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
             title: `${descriptors[Math.floor(Math.random() * descriptors.length)]} ${places[Math.floor(Math.random() * places.length)]}`,
-            location: `${cities[Math.floor(Math.random() * 100)].city}, ${cities[Math.floor(Math.random() * 100)].state} `
+            location: `${cities[Math.floor(Math.random() * 100)].city}, ${cities[Math.floor(Math.random() * 100)].state} `,
+            image: 'https://source.unsplash.com/collection/483251',
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
+            price: price
         });
         await camp.save();
     }
