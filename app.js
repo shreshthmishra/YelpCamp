@@ -1,13 +1,12 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
-const Campground = require('./models/campground');
-const methodOverride = require('method-override');
+const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const { campgroundSchema, reviewSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const campground = require('./models/campground');
+const methodOverride = require('method-override');
+const Campground = require('./models/campground');
 const Review = require('./models/review');
 
 
@@ -87,6 +86,7 @@ app.put('/campgrounds/:id', validateCampground, catchAsync(async function (req, 
 
 app.get('/campgrounds/:id', catchAsync(async function (req, res) {
     const campground = await Campground.findById(req.params.id);
+    console.log(campground);
     res.render('campgrounds/show', { campground });
 }));
 
