@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const session = require('express-session');
 
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/review');
@@ -30,6 +32,28 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
+app.use(session(sessionConfig))
+app.use(flash());
+
+
+// It is used so we don't need to pass messages every time
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')) // so that I can access views even if I don't start my app from YelpCamp directory
 
@@ -39,9 +63,6 @@ app.use('/campgrounds/:id/reviews', reviews);
 app.get('/', function (req, res) {
     res.render('home');
 });
-
-
-
 
 app.all('*', function (req, res, next) {
     next(new ExpressError('Page Not Found', 404));
