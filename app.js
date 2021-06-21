@@ -12,7 +12,8 @@ const reviews = require('./routes/review');
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 // copied from mongoose documentations
@@ -27,6 +28,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true })); // It parses incoming requests
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')) // so that I can access views even if I don't start my app from YelpCamp directory
