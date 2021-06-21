@@ -4,7 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Campground = require('../models/campground');
 const Review = require('../models/review');
-const { campgroundSchema, reviewSchema } = require('../schemas.js');
+const { campgroundSchema } = require('../schemas.js');
 
 
 const validateCampground = (req, res, next) => {
