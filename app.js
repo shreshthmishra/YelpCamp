@@ -10,7 +10,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-
+const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
@@ -66,6 +66,7 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')) // so that I can access views even if I don't start my app from YelpCamp directory
 
+app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 
