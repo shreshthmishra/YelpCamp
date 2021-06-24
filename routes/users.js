@@ -30,9 +30,13 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     req.flash('success', 'welcome back!');
-    const redirectUrl = req.session.returnTo || '/campgrounds';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
+    res.redirect('/campgrounds');
 });
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success', "Goodbye!");
+    res.redirect('/campgrounds');
+})
 
 module.exports = router;

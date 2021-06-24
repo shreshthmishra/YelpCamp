@@ -37,15 +37,6 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// Authentication stuff from passport docs
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret!',
     resave: false,
@@ -59,6 +50,17 @@ const sessionConfig = {
 
 app.use(session(sessionConfig))
 app.use(flash());
+
+
+// Authentication stuff from passport docs
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 
 // It is used so we don't need to pass messages which we want to flash every time
 app.use((req, res, next) => {
