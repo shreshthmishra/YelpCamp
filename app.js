@@ -36,6 +36,7 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Authentication stuff from passport docs
 app.use(passport.initialize());
 app.use(passport.session());
