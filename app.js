@@ -6,6 +6,10 @@ const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
 
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/review');
@@ -32,6 +36,11 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Authentication stuff from passport docs
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret!',
     resave: false,
@@ -46,8 +55,7 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash());
 
-
-// It is used so we don't need to pass messages every time
+// It is used so we don't need to pass messages which we want to flash every time
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -77,4 +85,3 @@ app.use(function (err, req, res, next) {
 app.listen(3000, function (req, res) {
     console.log('Port is listening on 3000');
 });
-
