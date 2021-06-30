@@ -9,7 +9,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-
+const mongoSantize = require('express-mongo-sanitize');
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -36,6 +36,7 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(mongoSantize());
 
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret!',
